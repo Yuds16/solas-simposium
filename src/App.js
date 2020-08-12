@@ -52,7 +52,7 @@ class App extends React.Component {
   componentDidMount() {
     
     Tabletop.init({
-      key: '1EDiit5C2L-RFA8BmIfJ_uLp8iLylTO6Hi3wH33QMq_g',
+      key: '1CvuBgaAY0DtayM3yy9WAH5MU-dUwyTkx_iHN1ZDZP-8',
       callback: googleData => {
         this.setState({
           data: googleData
@@ -75,10 +75,8 @@ class App extends React.Component {
             data.map(obj => {
               
                   someData.push({
-                    nama: obj.Sales,
-                    kode: obj.Dokter,
-                    tanggal: obj.Tanggal,
-                    waktu: obj.Waktu,
+                    request: obj.Request,
+                    doctor: obj.Doctor,
                     status: obj.Status,
                   })      
               
@@ -88,14 +86,12 @@ class App extends React.Component {
           <MaterialTable
             icons={tableIcons}
              columns={[
-                { title: 'Nama Sales', field: 'nama' },
-                { title: 'Kode Dokter', field: 'kode' },
-                { title: 'Waktu', field: 'waktu'},
-                { title: 'Tanggal', field: 'tanggal'},
+                { title: 'Request Code', field: 'request' },
+                { title: 'Doctor Code', field: 'doctor' },
                 { title: 'Status', field: 'status'},
               ]}
               data = {someData}
-              title =  "Monitoring"          
+              title =  "Simposium"          
 
           /> 
         </div>
