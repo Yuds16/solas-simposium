@@ -39,14 +39,30 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
 
+  const SHEET_ID = '1CvuBgaAY0DtayM3yy9WAH5MU-dUwyTkx_iHN1ZDZP-8';
+  const ACCESS_TOKEN = 'ya29.a0AfH6SMDhw5N4b0I5Nk7YWiMgxzVisIXLwEU2HkUGIulxylWvkaEOpnLVNG2avXpikMENNIqPtuVR4eV3M_OXSaxdRwiS9TTtan1SJdGs9w5MjrhP-ztv1KjCZrpbKzr_6MQt66Ap8j8dGYiNVKkcHki0IctKBKQK1oE'
+  var GoogleAuth;
+
 class App extends React.Component {
     
     
   constructor() {
     super()
     this.state = {
-      data: []
+      data: [],
+      value: 1
     }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
   }
 
   componentDidMount() {
@@ -62,12 +78,99 @@ class App extends React.Component {
     })
   }
 
+  updateAgree = () => {
+    var start = 0;
+    var end = 0;
+    start = this.state.value;
+    end = parseInt(this.state.value, 10) + 1;
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        //update this token with yours. 
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+      body: JSON.stringify({
+
+        requests: [{
+          repeatCell: {
+            range: {
+              startColumnIndex: 3,
+              endColumnIndex: 4,
+              startRowIndex: start,
+              endRowIndex: end,
+              sheetId: 0
+            },
+            cell: {
+              "userEnteredValue": {
+                    "numberValue": 1
+                },
+                "userEnteredFormat": {
+                    "horizontalAlignment": "CENTER",
+                    "verticalAlignment": "MIDDLE",
+                    "numberFormat": {
+                        "pattern": "\"AGREE\"",
+                        "type": "NUMBER"
+                    }
+                }
+            },
+            fields: "*"
+          }
+        }]
+
+      })
+    })
+  }
+
+  updateDisagree = () => {
+    var start = 0;
+    var end = 0;
+    start = this.state.value;
+    end = parseInt(this.state.value, 10) + 1;
+    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        //update this token with yours. 
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      },
+      body: JSON.stringify({
+
+        requests: [{
+          repeatCell: {
+            range: {
+              startColumnIndex: 3,
+              endColumnIndex: 4,
+              startRowIndex: start,
+              endRowIndex: end,
+              sheetId: 0
+            },
+            cell: {
+              "userEnteredValue": {
+                    "numberValue": 0
+                },
+                "userEnteredFormat": {
+                    "horizontalAlignment": "CENTER",
+                    "verticalAlignment": "MIDDLE",
+                    "numberFormat": {
+                        "pattern": "\"DISAGREE\"",
+                        "type": "NUMBER"
+                    }
+                }
+            },
+            fields: "*"
+          }
+        }]
+
+      })
+    })
+  }
+
   render() {
     const { data } = this.state;
       
     var someData = []
       
-    
     return (
       <div>   
          <div>
@@ -95,8 +198,15 @@ class App extends React.Component {
 
           /> 
         </div>
+        <form>
+          <label>
+            Kode:   REQ-
+            <input type="number" onChange={this.handleChange} />
+          </label>
+          <input type="submit" name="button" value="Agree" onClick={this.updateAgree} />
+          <input type="submit" name="button" value="Disagree" onClick={this.updateDisagree} />
+        </form>
       </div>
-
     );
   }
 }

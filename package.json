@@ -1,5 +1,5 @@
 {
-  "name": "react-google-sheets",
+  "name": "solas-simposium",
   "version": "0.1.0",
   "private": true,
   "homepage": "http://yuds16.github.io/solas-simposium",
@@ -15,7 +15,7 @@
     "react": "^16.13.1",
     "react-bootstrap": "^1.3.0",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
+    "react-scripts": "3.4.3",
     "tabletop": "^1.6.3"
   },
   "scripts": {
