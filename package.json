@@ -12,6 +12,8 @@
     "bootstrap": "^4.5.2",
     "material-table": "^1.68.0",
     "materialize-css": "^1.0.0-rc.2",
+    "passport-google-oauth": "^2.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.3.0",
     "react-dom": "^16.13.1",
