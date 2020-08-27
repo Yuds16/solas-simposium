@@ -10,6 +10,9 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.2",
+    "google-spreadsheet": "^2.0.6",
+    "googleapis": "^59.0.0",
+    "http2": "^3.3.7",
     "material-table": "^1.68.0",
     "materialize-css": "^1.0.0-rc.2",
     "passport-google-oauth": "^2.0.0",
@@ -17,6 +20,8 @@
     "react": "^16.13.1",
     "react-bootstrap": "^1.3.0",
     "react-dom": "^16.13.1",
+    "react-google-login": "^5.1.21",
+    "react-native-google-sign-in": "^1.0.16",
     "react-scripts": "3.4.3",
     "tabletop": "^1.6.3"
   },

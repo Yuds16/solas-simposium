@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { forwardRef } from 'react';
 import './App.css';
 import Tabletop from 'tabletop';
@@ -40,16 +40,66 @@ const tableIcons = {
 };
 
 const SHEET_ID = '1CvuBgaAY0DtayM3yy9WAH5MU-dUwyTkx_iHN1ZDZP-8';
-const ACCESS_TOKEN = 'ya29.a0AfH6SMDhw5N4b0I5Nk7YWiMgxzVisIXLwEU2HkUGIulxylWvkaEOpnLVNG2avXpikMENNIqPtuVR4eV3M_OXSaxdRwiS9TTtan1SJdGs9w5MjrhP-ztv1KjCZrpbKzr_6MQt66Ap8j8dGYiNVKkcHki0IctKBKQK1oE'
 
-class App extends React.Component {
-    
-    
+const GoogleSpreadsheet = require('google-spreadsheet');
+const {promisify} = require('util');
+
+const creds = require('./config/service_account.json');
+
+async function agree(row) {
+  try {
+    const doc = new GoogleSpreadsheet(SHEET_ID);
+    await promisify(doc.useServiceAccountAuth)(creds);
+
+    const info = await promisify(doc.getInfo)();
+    const sheet = info.worksheets[0];
+
+    const cell = await promisify(sheet.getCells)({
+      'min-row': row,
+      'max-row': row,
+      'min-col': 4,
+      'max-col': 4
+    });
+
+    cell[0].value = 1;
+    cell[0].save();
+  } catch (err) {
+    alert(err);
+  }
+
+  console.log("Agree called");
+}
+
+async function disagree(row) {
+  try {
+    const doc = new GoogleSpreadsheet(SHEET_ID);
+    await promisify(doc.useServiceAccountAuth)(creds);
+
+    const info = await promisify(doc.getInfo)();
+    const sheet = info.worksheets[0];
+
+    const cell = await promisify(sheet.getCells)({
+      'min-row': row,
+      'max-row': row,
+      'min-col': 4,
+      'max-col': 4
+    });
+
+    cell[0].value = 0;
+    cell[0].save();
+  } catch (err) {
+    alert(err);
+  }
+
+  console.log("Disagree called");
+}
+
+class App extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       data: [],
-      value: 1
+      value: 1,
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -77,102 +127,25 @@ class App extends React.Component {
     })
   }
 
-  updateAgree = () => {
-    var start = 0;
-    var end = 0;
-    start = this.state.value;
-    end = parseInt(this.state.value, 10) + 1;
-    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        //update this token with yours. 
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-      },
-      body: JSON.stringify({
+  updateAgree = (e) => {
+    e.preventDefault();
 
-        requests: [{
-          repeatCell: {
-            range: {
-              startColumnIndex: 3,
-              endColumnIndex: 4,
-              startRowIndex: start,
-              endRowIndex: end,
-              sheetId: 0
-            },
-            cell: {
-              "userEnteredValue": {
-                    "numberValue": 1
-                },
-                "userEnteredFormat": {
-                    "horizontalAlignment": "CENTER",
-                    "verticalAlignment": "MIDDLE",
-                    "numberFormat": {
-                        "pattern": "\"AGREE\"",
-                        "type": "NUMBER"
-                    }
-                }
-            },
-            fields: "*"
-          }
-        }]
-
-      })
-    })
+    agree(parseInt(this.state.value, 10) + 1)
   }
 
-  updateDisagree = () => {
-    var start = 0;
-    var end = 0;
-    start = this.state.value;
-    end = parseInt(this.state.value, 10) + 1;
-    fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        //update this token with yours. 
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-      },
-      body: JSON.stringify({
+  updateDisagree = (e) => {
+    e.preventDefault();
 
-        requests: [{
-          repeatCell: {
-            range: {
-              startColumnIndex: 3,
-              endColumnIndex: 4,
-              startRowIndex: start,
-              endRowIndex: end,
-              sheetId: 0
-            },
-            cell: {
-              "userEnteredValue": {
-                    "numberValue": 0
-                },
-                "userEnteredFormat": {
-                    "horizontalAlignment": "CENTER",
-                    "verticalAlignment": "MIDDLE",
-                    "numberFormat": {
-                        "pattern": "\"DISAGREE\"",
-                        "type": "NUMBER"
-                    }
-                }
-            },
-            fields: "*"
-          }
-        }]
-
-      })
-    })
+    disagree(parseInt(this.state.value, 10) + 1);
   }
 
   render() {
     const { data } = this.state;
-      
-    var someData = []
-      
+    var someData = [];
+
     return (
       <div>   
-         <div>
+        <div>
           {
             data.map(obj => {
               
