@@ -42,7 +42,7 @@ const tableIcons = {
 const SHEET_ID = '1CvuBgaAY0DtayM3yy9WAH5MU-dUwyTkx_iHN1ZDZP-8';
 
 const GoogleSpreadsheet = require('google-spreadsheet');
-const {promisify} = require('util');
+const { promisify } = require('util');
 
 const creds = require('./config/service_account.json');
 
@@ -117,7 +117,7 @@ class App extends Component {
   componentDidMount() {
     
     Tabletop.init({
-      key: '1CvuBgaAY0DtayM3yy9WAH5MU-dUwyTkx_iHN1ZDZP-8',
+      key: SHEET_ID,
       callback: googleData => {
         this.setState({
           data: googleData
@@ -127,15 +127,11 @@ class App extends Component {
     })
   }
 
-  updateAgree = (e) => {
-    e.preventDefault();
-
+  updateAgree = () => {
     agree(parseInt(this.state.value, 10) + 1)
   }
 
-  updateDisagree = (e) => {
-    e.preventDefault();
-
+  updateDisagree = () => {
     disagree(parseInt(this.state.value, 10) + 1);
   }
 
