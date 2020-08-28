@@ -85,7 +85,7 @@ async function disagree(row) {
       'max-col': 4
     });
 
-    cell[0].value = 0;
+    cell[0].value = 2;
     cell[0].save();
   } catch (err) {
     alert(err);
