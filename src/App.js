@@ -64,7 +64,7 @@ async function agree(row) {
     cell[0].value = 1;
     cell[0].save();
   } catch (err) {
-    alert(err);
+    alert("Failed to complete action, please contact maintainance.");
   }
 
   console.log("Agree called");
@@ -88,7 +88,7 @@ async function disagree(row) {
     cell[0].value = 2;
     cell[0].save();
   } catch (err) {
-    alert(err);
+    alert("Failed to complete action, please contact maintainance.");
   }
 
   console.log("Disagree called");
@@ -129,12 +129,12 @@ class App extends Component {
 
   updateAgree = () => {
     agree(parseInt(this.state.value, 10) + 1)
-    window.location.reload();
+    window.location.reload(false);
   }
 
   updateDisagree = () => {
     disagree(parseInt(this.state.value, 10) + 1);
-    window.location.reload();
+    window.location.reload(false);
   }
 
   render() {
