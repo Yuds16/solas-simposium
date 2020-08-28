@@ -129,10 +129,12 @@ class App extends Component {
 
   updateAgree = () => {
     agree(parseInt(this.state.value, 10) + 1)
+    window.location.reload();
   }
 
   updateDisagree = () => {
     disagree(parseInt(this.state.value, 10) + 1);
+    window.location.reload();
   }
 
   render() {
