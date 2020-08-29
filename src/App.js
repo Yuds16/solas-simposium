@@ -67,8 +67,6 @@ async function agree(row) {
     console.log(err);
     alert("Failed to complete action, please contact maintainance.");
   }
-
-  console.log("Agree called");
 }
 
 async function disagree(row) {
@@ -92,8 +90,6 @@ async function disagree(row) {
     console.log(err);
     alert("Failed to complete action, please contact maintainance.");
   }
-
-  console.log("Disagree called");
 }
 
 class App extends Component {
@@ -131,12 +127,10 @@ class App extends Component {
 
   updateAgree = () => {
     agree(parseInt(this.state.value, 10) + 1)
-    window.location.reload(false);
   }
 
   updateDisagree = () => {
     disagree(parseInt(this.state.value, 10) + 1);
-    window.location.reload(false);
   }
 
   render() {
