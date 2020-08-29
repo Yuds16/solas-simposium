@@ -61,9 +61,10 @@ async function agree(row) {
       'max-col': 4
     });
 
-    cell[0].value = 1;
+    cell[0].value = 1.00;
     cell[0].save();
   } catch (err) {
+    console.log(err);
     alert("Failed to complete action, please contact maintainance.");
   }
 
@@ -85,9 +86,10 @@ async function disagree(row) {
       'max-col': 4
     });
 
-    cell[0].value = 2;
+    cell[0].value = 2.00;
     cell[0].save();
   } catch (err) {
+    console.log(err);
     alert("Failed to complete action, please contact maintainance.");
   }
 
