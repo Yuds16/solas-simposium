@@ -40,29 +40,23 @@ const tableIcons = {
 };
 
 const SHEET_ID = '1CvuBgaAY0DtayM3yy9WAH5MU-dUwyTkx_iHN1ZDZP-8';
-
-const GoogleSpreadsheet = require('google-spreadsheet');
-const { promisify } = require('util');
-
+const { GoogleSpreadsheet } = require('google-spreadsheet');
 const creds = require('./config/service_account.json');
 
 async function agree(row) {
   try {
     const doc = new GoogleSpreadsheet(SHEET_ID);
-    await promisify(doc.useServiceAccountAuth)(creds);
+    await doc.useServiceAccountAuth(creds);
+    await doc.loadInfo();
+    const sheet = doc.sheetsByIndex[0];
+    
+    await sheet.loadCells();
+    const target = sheet.getCell(row, 3);
 
-    const info = await promisify(doc.getInfo)();
-    const sheet = info.worksheets[0];
+    target.value = "Agree";
+    await sheet.saveUpdatedCells();
 
-    const cell = await promisify(sheet.getCells)({
-      'min-row': row,
-      'max-row': row,
-      'min-col': 4,
-      'max-col': 4
-    });
-
-    cell[0].value = 1.00;
-    cell[0].save();
+    window.location.reload();
   } catch (err) {
     console.log(err);
     alert("Failed to complete action, please contact maintainance.");
@@ -72,20 +66,17 @@ async function agree(row) {
 async function disagree(row) {
   try {
     const doc = new GoogleSpreadsheet(SHEET_ID);
-    await promisify(doc.useServiceAccountAuth)(creds);
+    await doc.useServiceAccountAuth(creds);
+    await doc.loadInfo();
+    const sheet = doc.sheetsByIndex[0];
+    
+    await sheet.loadCells();
+    const target = sheet.getCell(row, 3);
 
-    const info = await promisify(doc.getInfo)();
-    const sheet = info.worksheets[0];
+    target.value = "Disagree";
+    await sheet.saveUpdatedCells();
 
-    const cell = await promisify(sheet.getCells)({
-      'min-row': row,
-      'max-row': row,
-      'min-col': 4,
-      'max-col': 4
-    });
-
-    cell[0].value = 2.00;
-    cell[0].save();
+    window.location.reload();
   } catch (err) {
     console.log(err);
     alert("Failed to complete action, please contact maintainance.");
@@ -125,12 +116,14 @@ class App extends Component {
     })
   }
 
-  updateAgree = () => {
-    agree(parseInt(this.state.value, 10) + 1)
+  updateAgree = (e) => {
+    agree(parseInt(this.state.value, 10));
+    e.preventDefault(true);
   }
 
-  updateDisagree = () => {
-    disagree(parseInt(this.state.value, 10) + 1);
+  updateDisagree = (e) => {
+    disagree(parseInt(this.state.value, 10));
+    e.preventDefault(true);
   }
 
   render() {
@@ -161,16 +154,15 @@ class App extends Component {
               ]}
               data = {someData}
               title =  "Simposium"          
-
-          /> 
+          />
         </div>
         <form>
           <label>
             Kode:   REQ-
             <input type="number" onChange={this.handleChange} />
           </label>
-          <input type="submit" name="button" value="Agree" onClick={this.updateAgree} />
-          <input type="submit" name="button" value="Disagree" onClick={this.updateDisagree} />
+          <input type="submit" name="buttonAgree" value="Agree" onClick={this.updateAgree} />
+          <input type="submit" name="buttonDisagree" value="Disagree" onClick={this.updateDisagree} />
         </form>
       </div>
     );
