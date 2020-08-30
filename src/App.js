@@ -135,13 +135,13 @@ class App extends Component {
         <div>
           {
             data.map(obj => {
-              
-                  someData.push({
-                    request: obj.Request,
-                    doctor: obj.Doctor,
-                    status: obj.Status,
-                  })      
-              
+              if (obj.Request !== "" && obj.Doctor !== "") {
+                someData.push({
+                  request: obj.Request,
+                  doctor: obj.Doctor,
+                  status: obj.Status,
+                })
+              }
             })
           }
           
