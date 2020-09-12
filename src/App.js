@@ -43,7 +43,7 @@ const SHEET_ID = '1CvuBgaAY0DtayM3yy9WAH5MU-dUwyTkx_iHN1ZDZP-8';
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const creds = require('./config/service_account.json');
 
-async function agree(row) {
+async function agree(row, admin) {
   try {
     const doc = new GoogleSpreadsheet(SHEET_ID);
     await doc.useServiceAccountAuth(creds);
@@ -51,7 +51,7 @@ async function agree(row) {
     const sheet = doc.sheetsByIndex[0];
     
     await sheet.loadCells();
-    const target = sheet.getCell(row, 4);
+    const target = sheet.getCell(row, admin);
 
     target.value = "Agree";
     await sheet.saveUpdatedCells();
@@ -63,7 +63,7 @@ async function agree(row) {
   }
 }
 
-async function disagree(row) {
+async function disagree(row, admin) {
   try {
     const doc = new GoogleSpreadsheet(SHEET_ID);
     await doc.useServiceAccountAuth(creds);
@@ -71,7 +71,7 @@ async function disagree(row) {
     const sheet = doc.sheetsByIndex[0];
     
     await sheet.loadCells();
-    const target = sheet.getCell(row, 4);
+    const target = sheet.getCell(row, admin);
 
     target.value = "Disagree";
     await sheet.saveUpdatedCells();
@@ -88,14 +88,20 @@ class App extends Component {
     super();
     this.state = {
       data: [],
+      password: "",
       value: 1,
     }
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleRowChange = this.handleRowChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handlePasswordChange(event) {
+    this.setState({password: event.target.value})
+  }
+
+  handleRowChange(event) {
     this.setState({value: event.target.value});
   }
 
@@ -117,12 +123,28 @@ class App extends Component {
   }
 
   updateAgree = (e) => {
-    agree(parseInt(this.state.value, 10));
+    if (this.state.password === "password1") {
+      agree(parseInt(this.state.value, 10), 4);
+    } else if (this.state.password === "password2") {
+      agree(parseInt(this.state.value, 10), 5);
+    } else if (this.state.password === "password3") {
+      agree(parseInt(this.state.value, 10), 6);
+    } else {
+      alert("Wrong Password");
+    }
     e.preventDefault(true);
   }
 
   updateDisagree = (e) => {
-    disagree(parseInt(this.state.value, 10));
+    if (this.state.password === "password1") {
+      disagree(parseInt(this.state.value, 10), 4);
+    } else if (this.state.password === "password2") {
+      disagree(parseInt(this.state.value, 10), 5);
+    } else if (this.state.password === "password3") {
+      disagree(parseInt(this.state.value, 10), 6);
+    } else {
+      alert("Wrong Password");
+    }
     e.preventDefault(true);
   }
 
@@ -140,6 +162,7 @@ class App extends Component {
                   request: obj.Request,
                   doctor: obj.Doctor,
                   status: obj.Status,
+                  detail: obj.detail,
                 })
               }
             })
@@ -148,22 +171,35 @@ class App extends Component {
           <MaterialTable
             icons={tableIcons}
              columns={[
-                { title: 'Request Code', field: 'request' },
-                { title: 'Doctor Code', field: 'doctor' },
+                { title: 'Kode Permintaan', field: 'request' },
+                { title: 'Kode Dokter', field: 'doctor' },
+                { title: 'Detail', field: 'detail' },
                 { title: 'Status', field: 'status'},
               ]}
               data = {someData}
               title =  "Simposium"          
           />
         </div>
-        <form>
-          <label>
-            Kode:   REQ-
-            <input type="number" onChange={this.handleChange} />
-          </label>
-          <input type="submit" name="buttonAgree" value="Agree" onClick={this.updateAgree} />
-          <input type="submit" name="buttonDisagree" value="Disagree" onClick={this.updateDisagree} />
-        </form>
+        <br></br>
+        <br></br>
+        <div className="container">
+          <form>
+            <label>
+              Password:
+              <input type="password" onChange={this.handlePasswordChange} />
+            </label>
+            <br></br>
+            <br></br>
+            <label>
+              Kode Permintaan:
+              <input type="text" onChange={this.handleRowChange} />
+            </label>
+            <br></br>
+            <input type="submit" name="buttonAgree" value="Agree" onClick={this.updateAgree} />
+            <input type="submit" className="right" name="buttonDisagree" value="Disagree" onClick={this.updateDisagree} />
+          </form>
+          <br></br>
+        </div>
       </div>
     );
   }
