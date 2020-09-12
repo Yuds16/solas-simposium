@@ -51,7 +51,7 @@ async function agree(row) {
     const sheet = doc.sheetsByIndex[0];
     
     await sheet.loadCells();
-    const target = sheet.getCell(row, 3);
+    const target = sheet.getCell(row, 4);
 
     target.value = "Agree";
     await sheet.saveUpdatedCells();
@@ -71,7 +71,7 @@ async function disagree(row) {
     const sheet = doc.sheetsByIndex[0];
     
     await sheet.loadCells();
-    const target = sheet.getCell(row, 3);
+    const target = sheet.getCell(row, 4);
 
     target.value = "Disagree";
     await sheet.saveUpdatedCells();
