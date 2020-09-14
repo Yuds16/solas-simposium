@@ -17,6 +17,7 @@
     "material-table": "^1.68.0",
     "materialize-css": "^1.0.0-rc.2",
     "react": "^16.13.1",
+    "serve": "^11.3.2",
     "react-bootstrap": "^1.3.0",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
