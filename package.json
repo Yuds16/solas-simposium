@@ -1,6 +1,7 @@
 {
   "name": "solas-simposium",
   "version": "0.1.0",
+  "homepage": "http://yuds16.github.io/solas-simposium",
   "private": true,
   "web": "npm start",
   "dependencies": {
@@ -28,7 +29,6 @@
     "node": "12.18.3"
   },
   "scripts": {
-    "dev": "react-scripts start",
     "start": "react-scripts start",
     "heroku-postbuild": "npm run build",
     "build": "react-scripts build",
