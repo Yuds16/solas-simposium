@@ -1,7 +1,6 @@
 {
   "name": "solas-simposium",
   "version": "0.1.0",
-  "homepage": "simposium.sims-insales.com",
   "private": true,
   "web": "npm start",
   "dependencies": {
