@@ -195,8 +195,8 @@ class App extends Component {
               <input type="text" onChange={this.handleRowChange} />
             </label>
             <br></br>
-            <input type="submit" name="buttonAgree" value="Agree" onClick={this.updateAgree} />
-            <input type="submit" className="right" name="buttonDisagree" value="Disagree" onClick={this.updateDisagree} />
+            <input type="submit" className="button"  name="buttonAgree" value="Agree" onClick={this.updateAgree} />
+            <input type="submit" className="right button" name="buttonDisagree" value="Disagree" onClick={this.updateDisagree} />
           </form>
           <br></br>
         </div>

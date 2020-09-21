@@ -70,3 +70,11 @@ input[type=submit] {
   position: relative;
   float: right;
 }
+
+.button {
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #114699;
+}
