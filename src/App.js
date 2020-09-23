@@ -160,7 +160,9 @@ class App extends Component {
               if (obj.Request !== "" && obj.Doctor !== "") {
                 someData.push({
                   request: obj.Request,
+                  sales: obj.Sales,
                   doctor: obj.Doctor,
+                  docName: obj.docName,
                   status: obj.Status,
                   detail: obj.Detail,
                 })
@@ -172,7 +174,9 @@ class App extends Component {
             icons={tableIcons}
              columns={[
                 { title: 'Kode Permintaan', field: 'request' },
+                { title: 'Sales', field: 'sales' },
                 { title: 'Kode Dokter', field: 'doctor' },
+                { title: 'Name Dokter', field: 'docName' },
                 { title: 'Detail', field: 'detail' },
                 { title: 'Status', field: 'status'},
               ]}
