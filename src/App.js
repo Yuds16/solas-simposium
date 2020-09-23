@@ -162,7 +162,7 @@ class App extends Component {
                   request: obj.Request,
                   doctor: obj.Doctor,
                   status: obj.Status,
-                  detail: obj.detail,
+                  detail: obj.Detail,
                 })
               }
             })
