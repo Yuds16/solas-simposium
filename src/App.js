@@ -43,6 +43,9 @@ const SHEET_ID = '1CvuBgaAY0DtayM3yy9WAH5MU-dUwyTkx_iHN1ZDZP-8';
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const creds = require('./config/service_account.json');
 
+const AM_PASS = "8e73G2xm";
+const GM_PASS = "cqAQwuTm";
+
 async function agree(row, admin) {
   try {
     const doc = new GoogleSpreadsheet(SHEET_ID);
@@ -53,7 +56,7 @@ async function agree(row, admin) {
     await sheet.loadCells();
     const target = sheet.getCell(row, admin);
 
-    target.value = "Agree";
+    target.value = "Y";
     await sheet.saveUpdatedCells();
 
     window.location.reload();
@@ -73,7 +76,7 @@ async function disagree(row, admin) {
     await sheet.loadCells();
     const target = sheet.getCell(row, admin);
 
-    target.value = "Disagree";
+    target.value = "N";
     await sheet.saveUpdatedCells();
 
     window.location.reload();
@@ -123,11 +126,9 @@ class App extends Component {
   }
 
   updateAgree = (e) => {
-    if (this.state.password === "password1") {
-      agree(parseInt(this.state.value, 10), 4);
-    } else if (this.state.password === "password2") {
+    if (this.state.password === AM_PASS) {
       agree(parseInt(this.state.value, 10), 5);
-    } else if (this.state.password === "password3") {
+    } else if (this.state.password === GM_PASS) {
       agree(parseInt(this.state.value, 10), 6);
     } else {
       alert("Wrong Password");
@@ -136,11 +137,9 @@ class App extends Component {
   }
 
   updateDisagree = (e) => {
-    if (this.state.password === "password1") {
-      disagree(parseInt(this.state.value, 10), 4);
-    } else if (this.state.password === "password2") {
+    if (this.state.password === AM_PASS) {
       disagree(parseInt(this.state.value, 10), 5);
-    } else if (this.state.password === "password3") {
+    } else if (this.state.password === GM_PASS) {
       disagree(parseInt(this.state.value, 10), 6);
     } else {
       alert("Wrong Password");
@@ -163,8 +162,10 @@ class App extends Component {
                   sales: obj.Sales,
                   doctor: obj.Doctor,
                   docName: obj.docName,
-                  status: obj.Status,
                   detail: obj.Detail,
+                  am: obj.AM,
+                  gm: obj.GM,
+                  status: obj.Status,
                 })
               }
             })
@@ -178,6 +179,8 @@ class App extends Component {
                 { title: 'Kode Dokter', field: 'doctor' },
                 { title: 'Name Dokter', field: 'docName' },
                 { title: 'Detail', field: 'detail' },
+                { title: 'AM', field: 'am' },
+                { title: 'GM', field: 'gm' },
                 { title: 'Status', field: 'status'},
               ]}
               data = {someData}
