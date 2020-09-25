@@ -127,9 +127,9 @@ class App extends Component {
 
   updateAgree = (e) => {
     if (this.state.password === AM_PASS) {
-      agree(parseInt(this.state.value, 10), 5);
+      agree(parseInt(this.state.value, 10), 4);
     } else if (this.state.password === GM_PASS) {
-      agree(parseInt(this.state.value, 10), 6);
+      agree(parseInt(this.state.value, 10), 5);
     } else {
       alert("Wrong Password");
     }
@@ -138,9 +138,9 @@ class App extends Component {
 
   updateDisagree = (e) => {
     if (this.state.password === AM_PASS) {
-      disagree(parseInt(this.state.value, 10), 5);
+      disagree(parseInt(this.state.value, 10), 4);
     } else if (this.state.password === GM_PASS) {
-      disagree(parseInt(this.state.value, 10), 6);
+      disagree(parseInt(this.state.value, 10), 5);
     } else {
       alert("Wrong Password");
     }
